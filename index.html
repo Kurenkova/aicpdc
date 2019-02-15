@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>АИС ПДС</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<link rel="shortcut icon" href="https://image.flaticon.com/icons/svg/1162/1162493.svg">
+</head>
+
+<body>
+
+
+<nav class="navbar navbar-light" style="background-color: #c0c0c0;">
+  <a class="navbar-brand" href="#">
+    <img src="https://image.flaticon.com/icons/svg/1162/1162493.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    <font size="5"><b>АИС ПДС</b></font>
+  </a>
+</nav>
+
+<div style="width: 50%; margin-left: 50px; margin-top: 20px;">
+<form action="http://91.226.80.102:3000/result" method="post">
+  <div class="form-group">
+    <label for="groups_input">Введите количество групп:</label>
+    <input type="number" class="form-control" id="groups_input" aria-describedby="emailHelp" name="groups_count">
+  </div>
+  <div class="form-group">
+    <label for="items_input">Введите количество товаров :</label>
+    <input type="number" class="form-control" id="items_input" name="items_count">
+  </div>
+   <div>
+    <label>Введите интересующий вас временной промежуток: </label>
+  </div>
+  <div class="form-group">
+    <label for="date_from_input">С</label>
+    <input type="datetime-local" class="form-control" id="date_from_input" name="date_from">
+  </div>
+  <div class="form-group">
+    <label for="date_to_input">По</label>
+    <input type="datetime-local" class="form-control" id="date_to_input" name="date_to">
+  </div>
+  <button type="submit" class="btn btn-secondary" style="margin-top: 20px;">Предоставить информацию!</button>
+</form>
+</div>
+
+</body>
+
+</html>
+
+<style>
+   body {
+    background-image: url('/static/bg.jpg');
+     -moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+   }
+   label {
+     font-weight: bold;
+   }
+  </style>
+
