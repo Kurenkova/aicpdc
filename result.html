@@ -4,7 +4,7 @@
 
 
 <head>
-<title>АИС ПДС</title>
+<title>АИС ПДС</title>  
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <link rel="shortcut icon" href="https://image.flaticon.com/icons/svg/1162/1162493.svg">
 </head>
@@ -12,20 +12,19 @@
 
    <body>
 
-   <nav class="navbar navbar-light" style="background-color: #c0c0c0;">
-  <!--<span class="navbar-brand mb-0 h1">АИС ПДС</span>-->
+   <nav class="navbar navbar-light" style="background-color: #c0c0c0;">  
   <a class="navbar-brand" href="#">
-    <img src="https://image.flaticon.com/icons/svg/1162/1162493.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-    <font size="5"><b>АИС ПДС</b></font>
+    <img src="https://image.flaticon.com/icons/svg/1162/1162493.svg" width="30" height="30" class="d-inline-block align-top" alt="">  
+    <font size="5"><b>АИС ПДС</b></font> 
   </a>
 </nav>
 
 <div style="width: 50%; margin-left: 50px; margin-top: 20px;">
 {% for group in groups_data: %}
-<h3>Группа {{ group.ind+1 }}</h3>
-<p>Размер группы: {{ group.g_size }} человек</p>
+<h3>Группа {{ group.ind+1 }}</h3>  
+<p>Размер группы: {{ group.g_size }} человек</p>  
 <p>Товары: {{ group.goods }}</p>
-<hr>
+<hr>  
 {% endfor %}
 <a href="http://91.226.80.102:3000" class="btn btn-secondary" style="margin-top: 20px;">Вернуться на первую страницу!</a>
 <hr>
@@ -38,7 +37,7 @@
    body {
     background-image: url('/static/bg.jpg');
      -moz-background-size: 100%; /* Firefox 3.6+ */
-    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */        
     -o-background-size: 100%; /* Opera 9.6+ */
     background-size: 100%; /* Современные браузеры */
    }

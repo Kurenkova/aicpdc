@@ -101,6 +101,12 @@ def result():
 				i = i + 1
 			else:
 				goods_data.append(g_dict)
+				if (int(myresult[i][0]) - ind > 1):
+					while int(myresult[i][0]) - ind > 1:
+						goods_data.append(g_dict)
+						ind = ind+1
+						g_dict = {"нет рекомендуемых товаров": 0}
+				goods_data.append(g_dict)
 				ind = myresult[i][0]
 				g_dict = {}
 		goods_data.append(g_dict)
@@ -108,29 +114,25 @@ def result():
 		goods_lists = []
 		for r in goods_data:
 			goods_list = []
-			#for key in sorted(r, key=r.get, reverse=True):
-			#	goods_list.append(key)
 			sorted_list = sorted(r.items(), key=operator.itemgetter(1), reverse=True)
 			for i in sorted_list:
 				goods_list.append(i[0])
-			#for key in r:
-			#	goods_list.append(key)
 			final_list = goods_list[0:min(len(goods_list), items_count)]
 			goods_lists.append(final_list)
 		#Рассылка по электронной почте
 		mycursor.execute("SELECT PGroup, Email FROM all_persons WHERE Email IS NOT NULL")
 		myresult = mycursor.fetchall()
 		for r in myresult:
-			try:
-				msg = Message('Рекомендации товаров только для Вас!', sender = 'Магазин АИС ПДС', recipients = [str(r[1])])
-				msg.body = "Рекомендуем приобрести следующие товары по эксклюзивным ценам: " + ", ".join(goods_lists[r[0]])
-				#mail.send(msg)
-			except:
-				print('Error sending emial to recipient ' + str(r[1]))
+			if ("нет рекомендуемых товаров" not in goods_lists[r[0]]):
+				try:
+					msg = Message('Рекомендации товаров только для Вас!', sender = 'Магазин АИС ПДС', recipients = [str(r[1])])
+					msg.body = "Рекомендуем приобрести следующие товары по эксклюзивным ценам: " + ", ".join(goods_lists[r[0]])
+					#mail.send(msg)
+				except:
+					print('Error sending emial to recipient ' + str(r[1]))
 		#Готовим данные для отображения
 		groups_data = []
 		for i in range(len(table_data)):
-			#obj = {'ind': i, 'g_size': len(table_data[i]), 'goods': ", ".join(goods_data[i])}
 			obj = {'ind': i, 'g_size': len(table_data[i]), 'goods': ", ".join(goods_lists[i])}
 			groups_data.append(obj)
 		return render_template("result.html", persons = table_data, groups_data = groups_data)
