@@ -14,12 +14,6 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 mail = Mail(app)
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="aic",
-  passwd="pdc",
-  database="aicpdc"
-)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -30,7 +24,7 @@ app.config['MAIL_USE_SSL'] = True
 
 
 @app.route('/')
-def hello_world():
+def hello():
 	return render_template('index.html')
 
 @app.route('/result',methods = ['POST', 'GET'])
@@ -46,6 +40,8 @@ def result():
 		print(items_count)
 		print(date_from)
 		print(date_to)
+		#Подключение к базе данных
+		mydb = mysql.connector.connect(host="localhost", user="aic", passwd="pdc", database="aicpdc")
 		#выбор данных для обучения модели
 		mycursor = mydb.cursor()
 		mycursor.execute("SELECT Age, money_month, money_month_dc FROM all_persons")
@@ -81,7 +77,7 @@ def result():
 				table_data.append([])
 		#Определяем спрос на товары по группам:
 		sql = """SELECT all_persons.PGroup, goods_shop_check_data.Goods_article, goods_shop_check_data.Goods_name, shop_check_data.BankCardInd, shop_check_data.CardInd
-				FROM all_persons, goods_shop_check_data JOIN shop_check_data 
+				FROM all_persons, goods_shop_check_data JOIN shop_check_data
 				ON goods_shop_check_data.CheckInd = shop_check_data.CheckInd
 				WHERE all_persons.bcId = shop_check_data.BankCardInd OR all_persons.dcId = shop_check_data.CardInd
 				ORDER BY all_persons.PGroup"""
@@ -96,7 +92,7 @@ def result():
 				if myresult[i][2] in g_dict:
 					n_v = g_dict[myresult[i][2]] + 1
 					g_dict.update({myresult[i][2]: n_v})
-				else: 
+				else:
 					g_dict.update({myresult[i][2]: 1})
 				i = i + 1
 			else:
@@ -130,6 +126,8 @@ def result():
 					#mail.send(msg)
 				except:
 					print('Error sending emial to recipient ' + str(r[1]))
+		#Закрываем подключение к БД
+		mydb.close()
 		#Готовим данные для отображения
 		groups_data = []
 		for i in range(len(table_data)):
@@ -137,19 +135,7 @@ def result():
 			groups_data.append(obj)
 		return render_template("result.html", persons = table_data, groups_data = groups_data)
 	if request.method == 'GET':
-		mycursor = mydb.cursor()
-		mycursor.execute("SELECT * FROM banks")
-		myresult = mycursor.fetchall()
-		return render_template("result.html", banks = myresult)
-
-
-@app.route('/neznayu')
-def davaitevypridymaete():
-	if request.method == 'GET':
-		uchenick = {'kluch': 'znachenie'}
-		return render_template("result.html", moi_slovar=uchenick)
-
-
+		return 'Нет данных для отображения'
 
 
 app.run(debug=True, host='0.0.0.0', port=3000)
